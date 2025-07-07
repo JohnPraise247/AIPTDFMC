@@ -292,24 +292,24 @@ boundary_lat_max = st.number_input("Max Latitude", value=7.806483, format="%.6f"
 boundary_lon_min = st.number_input("Min Longitude", value=5.494747, format="%.6f")
 boundary_lon_max = st.number_input("Max Longitude", value=5.495450, format="%.6f")
 
-if st.button("Predict Next Location"):
-    if model is None or df is None or scaler is None:
-        st.error("Model not trained or data not loaded. Please train the model first.")
-    else:
-        sequence_length = int(sequence_length)
-        if len(df) < sequence_length:
-            st.error(f"Not enough data ({len(df)}) to form a sequence of length {sequence_length}.")
-        else:
-            features = ['Latitude', 'Longitude']
-            last_sequence_df = df.tail(sequence_length)
-            last_sequence = last_sequence_df[features].values
-            predicted_loc = predict_next_location(model, last_sequence, scaler)
-            if predicted_loc is not None:
-                st.write(f"Predicted next location: Latitude={predicted_loc[0]:.6f}, Longitude={predicted_loc[1]:.6f}")
-                if check_boundary(predicted_loc[0], predicted_loc[1], boundary_lat_min, boundary_lat_max, boundary_lon_min, boundary_lon_max):
-                    st.write("ALERT: Predicted location is OUTSIDE the set boundary!")
-                else:
-                    st.write("Predicted location is inside the set boundary.")
+# if st.button("Predict Next Location"):
+#     if model is None or df is None or scaler is None:
+#         st.error("Model not trained or data not loaded. Please train the model first.")
+#     else:
+#         sequence_length = int(sequence_length)
+#         if len(df) < sequence_length:
+#             st.error(f"Not enough data ({len(df)}) to form a sequence of length {sequence_length}.")
+#         else:
+#             features = ['Latitude', 'Longitude']
+#             last_sequence_df = df.tail(sequence_length)
+#             last_sequence = last_sequence_df[features].values
+#             predicted_loc = predict_next_location(model, last_sequence, scaler)
+#             if predicted_loc is not None:
+#                 st.write(f"Predicted next location: Latitude={predicted_loc[0]:.6f}, Longitude={predicted_loc[1]:.6f}")
+#                 if check_boundary(predicted_loc[0], predicted_loc[1], boundary_lat_min, boundary_lat_max, boundary_lon_min, boundary_lon_max):
+#                     st.write("ALERT: Predicted location is OUTSIDE the set boundary!")
+#                 else:
+#                     st.write("Predicted location is inside the set boundary.")
 
 if st.button("Visualize Results"):
     df = load_data(uploaded_file)
